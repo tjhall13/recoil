@@ -1,0 +1,120 @@
+#!/usr/bin/nodejs
+
+var cluster = require('cluster');
+var http = require('http');
+var nopt = require('nopt');
+var path = require('path');
+var fs = require('fs');
+
+var recoil = require('../index.js');
+var pkg = require('../package.json');
+var xml = require('../lib/xml.js');
+
+function help() {
+  var text = [
+	'Usage: recoil [options] <config>',
+	'Options:',
+	'  --version -v          Display version information.',
+	'  --help -h             Show this help.',
+	'  --document -d <file>  Use <file> as the requirements',
+	'                        document.',
+	'  --port -p <port>      Host web server on <port>.',
+	'',
+	'Parameters:',
+	'  <config> is the relative path to a .json file expecting',
+	'the property "document". The property "port" is optional',
+	'and defaults to "8080".',
+	'',
+	'To connect. Simply connect your browser to localhost:<port>'
+  ].reduce(
+	function(current, line) {
+		return current + line + '\n';
+	}, ''
+  );
+	return text.substr(0, text.length - 1);
+}
+
+var options = nopt({
+		version: Boolean,
+		help: Boolean,
+		document: path,
+		port: Number
+	}, {
+		v: '--version',
+		h: '--help',
+		d: '--document',
+		p: '--port'
+	}, process.argv);
+
+if(options.version) {
+	console.log(pkg.name + ' v' + pkg.version);
+	process.exit(0);
+}
+
+if(options.help) {
+	console.log(help());
+	process.exit(0);
+}
+
+var filename = 'recoil.json';
+if(options.argv.remain.length > 0) {
+	filename = options.argv.remain[0];
+}
+
+var config;
+try {
+	config = require(path.resolve(filename));
+} catch(err) {
+	console.error(err.message);
+	process.exit(1);
+}
+
+if(!config.document) {
+	console.error('No requirements document provided');
+	process.exit(1);
+}
+config.port = config.port || 8080;
+
+for(var option in config) {
+	if(option in options) {
+		config[option] = options[option];
+	}
+}
+
+if(config.document.charAt(0) == '~') {
+	config.document = path.resolve(process.env.HOME + config.document.substr(1));
+} else {
+	config.document = path.resolve(config.document);
+}
+
+if(cluster.isMaster) {
+	process.title = 'recoil';
+	var worker = cluster.fork();
+	if(config.document) {
+		fs.watch(config.document,  function(event, filename) {
+			if(event == 'change') {
+				var data = xml.readFileSync(config.document);
+				worker.send({
+					data: data
+				});
+			}
+		});
+	}
+} else {
+	var ctx = {
+		data: xml.readFileSync(config.document),
+		save: function(err, data) {
+			if(err) {
+				console.error('save:', err);
+			} else {
+				console.log(data);
+			}
+		}
+	};
+	process.on('message', function(msg) {
+		if(msg.data) {
+			ctx.data = msg.data;
+		}
+	});
+	http.createServer(recoil(ctx)).listen(config.port);
+}

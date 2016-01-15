@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+	<introduction>
+		<purpose>The purpose of this document is to test Recoil requirements editor.</purpose>
+		<definitions>
+			<definition word="Test">This is the definition.</definition>
+			<definition word="Recoil">Recoil is a software requirements editor.</definition>
+		</definitions>
+	</introduction>
+	<description>Recoil is a requirements editor for rsrd (Recoil Software Requirements Document) files.</description>
+	<requirements></requirements>
+</document>

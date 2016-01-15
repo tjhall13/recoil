@@ -1,0 +1,44 @@
+<$js
+var data = arguments[0];
+var edit = true;
+
+var definitions = {
+	edit: function() { $>
+		<li>
+			<label for="word">Word: </label><input type="text" name="word">
+			<label for="definition">Definition: </label><input type="text" name="definition">
+			<input type="button" value="Add">
+		</li> <$js
+	},
+	view: function(defintion) {
+		if(edit) { $>
+			<li>
+				<input type="text" value="<$js print(definition.$.word); $>">
+				<input type="text" value="<$js print(definition._); $>">
+				<input type="button" value="Edit">
+			</li> <$js
+		} else { $>
+			<li>
+				<b><$js print(definition.$.word); $></b>: <$js print(definition._); $>
+			</li> <$js
+		}
+	}
+};
+
+$>
+<h2>Introduction</h2>
+<h3>Purpose</h3>
+<p> <$js
+	print(data.purpose[0]); $>
+</p>
+<h3>Definitions</h3>
+<ul> <$js
+	var i, definition;
+	for(i = 0; i < data.definitions[0].definition.length; i++) {
+		var definition = data.definitions[0].definition[i];
+		definitions.view(definition);
+	}
+	if(edit) {
+		definitions.edit();
+	} $>
+</ul>

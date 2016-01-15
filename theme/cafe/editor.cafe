@@ -1,0 +1,20 @@
+<$js
+var introduction = require('./introduction.cafe');
+var description = require('./description.cafe');
+
+var document = request.recoil.data.xml.document;
+$>
+<html>
+	<head>
+		<link rel="stylesheet/css" href="/css/recoil.css">
+		<title>Recoil</title>
+	</head>
+	<body>
+		<div> <$js
+			introduction(document.introduction[0]); $>
+		</div>
+		<div> <$js
+			description(document.description[0]); $>
+		</div>
+	</body>
+</html>

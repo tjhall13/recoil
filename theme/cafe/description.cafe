@@ -1,0 +1,7 @@
+<$js
+var data = arguments[0];
+$>
+<h2>Description</h2>
+<p> <$js
+	print(data); $>
+</p>
