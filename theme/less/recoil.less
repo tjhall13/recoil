@@ -101,6 +101,84 @@ header {
 			padding-left: 20px;
 			border-left: 1px solid #000;
 		}
+
+		p, ul {
+			font-size: 16;
+			margin: 0;
+		}
+
+		span[data-role="word"] {
+			font-weight: bold;
+		}
+
+		ul > div.edit {
+			margin: -10px;
+		}
+
+		.edit {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			justify-content: flex-start;
+			margin: -16px;
+
+			input, textarea {
+				margin: 10px;
+				font-family: arial;
+				font-size: 16;
+				border: 1px solid #aaa;
+				border-radius: 5px;
+				padding: 5px;
+				transition:
+					border-color .2s linear .1s,
+					background .3s linear;
+				resize: none;
+
+				&[type="button"] {
+					flex: 0 1 100px;
+
+					&:hover {
+						border: 2px solid #47476e;
+						padding: 4px;
+						background: #6b6b90;
+						color: #fff;
+					}
+					&:active {
+						border-color: #25255b;
+						background: #47476e;
+					}
+				}
+
+				&:focus {
+					border: 2px solid #47476e;
+					padding: 4px;
+					outline: none;
+				}
+			}
+
+			.row, .column {
+				margin: 10px;
+				display: flex;
+			}
+			.row {
+				flex-direction: row;
+			}
+			.column {
+				flex-direction: column;
+			}
+		}
+
+		.edit-block {
+			.row, input, textarea {
+				flex: 0 1 100%;
+			}
+		}
+
+		.edit-inline {
+			input, textarea {
+				
+			}
+		}
 	}
 }
 
@@ -138,8 +216,11 @@ nav {
 				& > ul {
 					display: flex;
 				}
-				& > a span {
-					transform: rotate(-45deg);
+				&.parent > a span {
+					transform: rotate(90deg);
+				}
+				&:not(.parent) > a span {
+					transform: rotate(45deg);
 				}
 			}
 			&.selected > a {
@@ -166,6 +247,76 @@ ul.action-list > li {
 		color: #fff;
 		cursor: pointer;
 	}
+}
+
+ul.context-menu {
+	border: 1px solid #000;
+	background: #eeeeee;
+	list-style: none;
+	display: none;
+	position: fixed;
+	min-width: 150px;
+	margin: 0;
+	padding: 0;
+
+	li {
+		padding: 5px 15px;
+		margin: 2px 0;
+
+		&:hover {
+			background: #9e9ec4;
+			color: #fff;
+			cursor: pointer;
+		}
+	}
+}
+
+.flex-wt-1 {
+	flex: 1 0 auto;
+}
+
+.flex-wt-2 {
+	flex: 2 0 auto;
+}
+
+.flex-wt-3 {
+	flex: 3 0 auto;
+}
+
+.flex-wt-4 {
+	flex: 4 0 auto;
+}
+
+.flex-wt-5 {
+	flex:5 0 auto;
+}
+
+.flex-wt-6 {
+	flex: 6 0 auto;
+}
+
+.flex-wt-7 {
+	flex: 7 0 auto;
+}
+
+.flex-wt-8 {
+	flex: 8 0 auto;
+}
+
+.flex-wt-9 {
+	flex: 9 0 auto;
+}
+
+.flex-wt-10 {
+	flex: 10 0 auto;
+}
+
+.flex-wt-11 {
+	flex: 11 0 auto;
+}
+
+.flex-wt-12 {
+	flex: 12 0 auto;
 }
 
 @media(max-width: 850px) {

@@ -1,6 +1,6 @@
 $(function() {
 	$('#sidebar').scrollspy({
-		offset: 50
+		offset: 55
 	});
 	var sidebar = $('#sidebar').sidebar();
 	$('#menuButton').click(function() {
@@ -26,4 +26,6 @@ $(function() {
 	};
 	$('.requirements-nav li.parent > a').dblclick(goto);
 	$('.requirements-nav li:not(.parent) > a').click(goto);
+
+	registerMenus();
 });

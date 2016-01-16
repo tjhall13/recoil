@@ -3,7 +3,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="/css/recoil.min.css">
 
-		<title>Recoil | test.xml</title>
+		<title>Recoil | test.xsrd</title>
 	</head>
 	<body>
 		<header>
@@ -30,7 +30,7 @@
 				<hr class="requirements-divider">
 				<ul class="requirements-nav">
 					<li class="parent">
-						<a href="#introduction"><span>+</span> Introduction</a>
+						<a href="#introduction"><span>&gt;</span> Introduction</a>
 						<ul>
 							<li><a href="#introduction-purpose"><span>&#8900;</span> Purpose</a></li>
 							<li><a href="#introduction-definitions"><span>&#8900;</span> Definitions</a></li>
@@ -40,13 +40,13 @@
 					</li>
 					<li><a href="#description"><span>&#8900;</span> Description</a></li>
 					<li class="parent">
-						<a href="#requirements"><span>+</span> Requirements</a>
+						<a href="#requirements"><span>&gt;</span> Requirements</a>
 						<ul>
 							<li class="parent">
-								<a href="#req-1"><span>+</span> Test 1</a>
+								<a href="#req-1"><span>&gt;</span> Test 1</a>
 								<ul>
 									<li class="parent">
-										<a href="#req-1-1"><span>+</span> Test 1.1</a>
+										<a href="#req-1-1"><span>&gt;</span> Test 1.1</a>
 										<ul>
 											<li><a href="#req-1-1-1"><span>&#8900;</span> Test 1.1.1</a></li>
 											<li><a href="#req-1-1-2"><span>&#8900;</span> Test 1.1.2</a></li>
@@ -54,7 +54,7 @@
 										</ul>
 									</li>
 									<li class="parent">
-										<a href="#req-1-2"><span>+</span> Test 1.2</a>
+										<a href="#req-1-2"><span>&gt;</span> Test 1.2</a>
 										<ul>
 											<li><a href="#req-1-2-1"><span>&#8900;</span> Test 1.2.1</a></li>
 											<li><a href="#req-1-2-2"><span>&#8900;</span> Test 1.2.2</a></li>
@@ -62,7 +62,7 @@
 										</ul>
 									</li>
 									<li class="parent">
-										<a href="#req-1-3"><span>+</span> Test 1.3</a>
+										<a href="#req-1-3"><span>&gt;</span> Test 1.3</a>
 										<ul>
 											<li><a href="#req-1-3-1"><span>&#8900;</span> Test 1.3.1</a></li>
 											<li><a href="#req-1-3-2"><span>&#8900;</span> Test 1.3.2</a></li>
@@ -84,11 +84,10 @@
 					</div>
 					<div id="introduction-definitions">
 						<h2>Definitions</h2>
-						<p>These are the definitions for the product</p>
 						<ul>
-							<li><b>Word</b>: Is a word used in this document</li>
-							<li><b>Recoil</b>: Is the name of the software being used</li>
-							<li><b>Software</b>: Duh.</li>
+							<li><span data-role="word">Word</span>:&nbsp;<span data-role="definition">Is a word used in this document.</span></li>
+							<li><span data-role="word">Recoil</span>:&nbsp;<span data-role="definition">Is the name of the software being used.</span></li>
+							<li><span data-role="word">Software</span>:&nbsp;<span data-role="definition">Is a program or collection of programs that allow for the manipulation and display of data.</span></li>
 						</ul>
 					</div>
 					<div id="introduction-overview">
@@ -165,6 +164,8 @@
 		<script src="/lib/jquery-1.11.2.min.js"></script>
 		<script src="/js/sidebar.js"></script>
 		<script src="/js/scrollspy.js"></script>
+		<script src="/js/contextmenu.js"></script>
+		<script src="/js/menus.js"></script>
 		<script src="/js/recoil.js"></script>
 	</body>
 </html>
