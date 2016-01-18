@@ -2,7 +2,7 @@ var express = require('express');
 var path = require('path');
 
 require('cafescript');
-var editor = require('./theme/cafe/editor.cafe');
+var editor = require('./views/editor.cafe');
 
 module.exports = function(ctx) {
 	var app = express();

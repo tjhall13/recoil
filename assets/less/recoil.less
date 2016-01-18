@@ -1,0 +1,166 @@
+@import "constants.less";
+
+@header-height: 50px;
+@nav-width: 250px;
+@nav-border: 1px;
+
+body {
+	display: flex;
+	flex-direction: column;
+	font-family: arial;
+	margin: 0;
+
+	& > header {
+		display: flex;
+		flex-direction: row;
+		flex: 0 1 @header-height;
+		justify-content: center;
+		position: fixed;
+		width: 100%;
+	}
+
+	& > .container {
+		display: flex;
+		flex-direction: row;
+		flex: 1 1 auto;
+		margin-top: @header-height;
+	}
+
+	& > #overlay {
+		display: flex;
+		position: fixed;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(0, 0, 0, 0.5);
+		z-index: 1000;
+		justify-content: center;
+		align-items: center;
+
+		img {
+			width: 150px;
+		}
+	}
+}
+
+.container {
+	nav {
+		border-right: @nav-border solid black;
+		display: flex;
+		flex-direction: column;
+		width: @nav-width;
+		height: ~"calc(100% - @{header-height})";
+		justify-content: flex-start;
+		overflow-y: auto;
+		position: fixed;
+		transition: left .2s;
+		z-index: 100;
+	}
+
+	main {
+		display: flex;
+		flex-direction: column;
+		flex: 1;
+		margin-left: calc(@nav-width + @nav-border);
+		padding: 0px 20px 40px 20px;
+	}
+}
+
+ul.action-list > li {
+	&:hover {
+		background: lighten(@primary, @color-offset);
+		color: white;
+		cursor: pointer;
+	}
+}
+
+ul.context-menu {
+	border: 1px solid black;
+	background: @secondary;
+	list-style: none;
+	display: none;
+	position: fixed;
+	min-width: 150px;
+	margin: 0;
+	padding: 0;
+
+	li {
+		padding: 5px 15px;
+		margin: 2px 0;
+
+		&:hover {
+			background: lighten(@primary, @color-offset);
+			color: white;
+			cursor: pointer;
+		}
+	}
+}
+
+.flex-wt-1 {
+	flex: 1 0 auto;
+}
+
+.flex-wt-2 {
+	flex: 2 0 auto;
+}
+
+.flex-wt-3 {
+	flex: 3 0 auto;
+}
+
+.flex-wt-4 {
+	flex: 4 0 auto;
+}
+
+.flex-wt-5 {
+	flex:5 0 auto;
+}
+
+.flex-wt-6 {
+	flex: 6 0 auto;
+}
+
+.flex-wt-7 {
+	flex: 7 0 auto;
+}
+
+.flex-wt-8 {
+	flex: 8 0 auto;
+}
+
+.flex-wt-9 {
+	flex: 9 0 auto;
+}
+
+.flex-wt-10 {
+	flex: 10 0 auto;
+}
+
+.flex-wt-11 {
+	flex: 11 0 auto;
+}
+
+.flex-wt-12 {
+	flex: 12 0 auto;
+}
+
+@media(max-width: 850px) {
+	body > header {
+		justify-content: space-between;
+	}
+	.container {
+		& > nav {
+			left: calc(-@nav-width - @nav-border);
+			z-index: 100;
+			transition: left .2s;
+
+			&.open {
+				left: 0px;
+			}
+		}
+		& > main {
+			margin-left: 0;
+		}
+	}
+}

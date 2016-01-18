@@ -1,0 +1,59 @@
+@import "constants.less";
+
+header {
+	background: @primary;
+	color: white;
+
+	.menu-btn, .settings-btn {
+		align-self: center;
+		border-radius: 5px;
+		display: none;
+		font-size: 25;
+		margin: 0 10px;
+		min-width: 25px;
+		padding: 5px;
+		text-align: center;
+
+		&:hover {
+			background: lighten(@primary, @color-offset);
+			cursor: pointer;
+		}
+	}
+
+	.settings-btn {
+		& > ul {
+			border: 1px solid black;
+			display: none;
+			color: black;
+			font-size: 20;
+			list-style: none;
+			margin: 15px 0 0 0;
+			padding: 0;
+			position: fixed;
+			right: 15px;
+			z-index: 100;
+			background: @secondary;
+
+			& > li {
+				padding: 5px 20px;
+				&:not(:last-of-type) {
+					border-bottom: 1px solid black;
+				}
+			}		
+		}
+	}
+
+	& > h2 {
+		font-size: 30;
+		line-height: 1;
+		margin: 10px;
+	}
+}
+
+@media(max-width: 850px) {
+	header {
+		.menu-btn, .settings-btn {
+			display: block;
+		}
+	}
+}

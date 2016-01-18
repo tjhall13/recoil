@@ -1,0 +1,117 @@
+@import "constants.less";
+
+main {
+	div {
+		display: flex;
+		flex-direction: column;
+	}
+	.requirement {
+		padding-left: 20px;
+		border-left: 1px solid black;
+	}
+
+	span[data-role="word"] {
+		font-weight: bold;
+	}
+
+	.edit {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: flex-start;
+		margin: 0;
+
+		input, textarea {
+			margin: 10px;
+			font-family: arial;
+			border: 1px solid gray;
+			border-radius: 5px;
+			padding: 5px;
+			transition:
+				border-color .2s linear .1s,
+				background .3s linear;
+			resize: none;
+
+			&[type="button"] {
+				flex: 0 1 100px;
+				font-size: 16;
+
+				&:hover {
+					border: 2px solid @primary;
+					padding: 4px;
+					background: lighten(@primary, @color-offset);
+					color: white;
+				}
+				&:active {
+					border-color: darken(@primary, @color-offset);
+					background: @primary;
+				}
+			}
+
+			&:focus {
+				border: 2px solid @primary;
+				padding: 4px;
+				outline: none;
+			}
+
+			&.h1, &.h2, &.h3, &.h4, &.h5, &.h6 {
+				margin: 15px 10px 3px 10px;	
+			}
+		}
+
+		.row, .column {
+			display: flex;
+		}
+		.row {
+			flex-direction: row;
+		}
+		.column {
+			flex-direction: column;
+		}
+	}
+
+	.edit-block {
+		.row, input, textarea {
+			flex: 0 1 100%;
+		}
+	}
+
+	.edit-inline {
+		input, textarea {
+			
+		}
+	}
+
+	.edit-text {
+		margin: -6px 0 0 -16px;
+	}
+
+	h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
+		font-weight: bold;
+		margin: 15px 0;
+	}
+	h1, .h1 {
+		font-size: 2.5em;
+	}
+	h2, .h2 {
+		font-size: 1.75em;
+	}
+	h3, .h3 {
+		font-size: 1.37em;
+	}
+	h4, .h4 {
+		font-size: 1.18em;
+	}
+	h5, .h5 {
+		font-size: 1.09em;
+	}
+	h6, .h6 {
+		font-size: 1em;
+	}
+
+	p, .p {
+		font-size: 16;
+		margin: 10px 0;
+		display: inline-block;
+	}
+}

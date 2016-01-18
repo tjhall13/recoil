@@ -1,8 +1,12 @@
 function ContextMenu(links) {
 	var self = this;
 	var menu = $('<ul class="context-menu"></ul>');
+	var handlers = [];
 	links.forEach(function(link) {
 		menu.append(link.html);
+		if(link.handler) {
+			handlers.push(link.handler);
+		}
 	});
 	ContextMenu.menus.push(this);
 
@@ -16,7 +20,7 @@ function ContextMenu(links) {
 			$(li).off('click');
 			$(li).click(function(e) {
 				e.context = context;
-				links[index].handler.call(this, e);
+				handlers[index].call(this, e);
 				self.hide();
 			});
 		});

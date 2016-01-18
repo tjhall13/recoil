@@ -1,0 +1,79 @@
+@import "constants.less";
+
+nav {
+	background: @secondary;
+	ul {
+		flex: 0 0 auto;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	hr {
+		width: 80%;
+	}
+	& > ul > li {
+		font-size: 20;
+		padding: 5px;
+
+		& > ul {
+			font-size: 18px;
+		}
+	}
+	.requirements-menu li {
+		padding-left: 20px;
+	}
+	.requirements-nav {
+		padding-left: 10px;
+		ul {
+			display: none;
+			flex-direction: column;
+			padding-left: 10px;
+		}
+		li {
+			&.active, &.selected {
+				& > ul {
+					display: flex;
+				}
+				&.parent:before {
+					transform: rotate(90deg);
+				}
+				&:not(.parent):before {
+					transform: rotate(45deg);
+				}
+			}
+			&.selected > a {
+				color: @primary;
+			}
+			&:before {
+				display: inline-block;
+				transition: all .2s;
+				width: .75em;
+				text-align: center;
+			}
+			&.parent:before {
+				content: '>';
+			}
+			&:not(.parent):before {
+				content: '\22c4';
+			}
+			a {
+				text-decoration: none;
+				color: black;
+				&:hover {
+					cursor: pointer;
+				}
+			}
+		}
+	}
+}
+
+@media(max-width: 850px) {
+	nav {
+		hr.requirements-divider {
+			display: none;
+		}
+		ul.requirements-menu {
+			display: none;
+		}
+	}
+}
