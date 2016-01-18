@@ -3,6 +3,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="/css/recoil.min.css">
 
+		<meta name="application" content="Recoil">
+		<meta name="filename" content="test.xsrd">
 		<title>Recoil | test.xsrd</title>
 	</head>
 	<body>
@@ -14,18 +16,18 @@
 			<div class="settings-btn">
 				<a id="settingsButton">&#8942;</a>
 				<ul class="settings-menu action-list">
-					<li>New</li>
-					<li>Save</li>
-					<li>About</li>
+					<li data-action="new">New</li>
+					<li data-action="save">Save</li>
+					<li data-action="link" data-href="/about/">About</li>
 				</ul>
 			</div>
 		</header>
 		<div class="container">
 			<nav id="sidebar">
 				<ul class="requirements-menu action-list">
-					<li>New</li>
-					<li>Save</li>
-					<li>About</li>
+					<li data-action="new">New</li>
+					<li data-action="save">Save</li>
+					<li data-action="link" data-href="/about/">About</li>
 				</ul>
 				<hr class="requirements-divider">
 				<ul class="requirements-nav">
@@ -33,19 +35,19 @@
 						<a href="#introduction">Introduction</a>
 						<ul>
 							<li>
-								<a href="#introduction-purpose">Purpose</a>
+								<a href="#purpose">Purpose</a>
 								<ul></ul>
 							</li>
 							<li>
-								<a href="#introduction-definitions">Definitions</a>
+								<a href="#definitions">Definitions</a>
 								<ul></ul>
 							</li>
 							<li>
-								<a href="#introduction-overview">System Overview</a>
+								<a href="#overview">System Overview</a>
 								<ul></ul>
 							</li>
 							<li>
-								<a href="#introduction-references">References</a>
+								<a href="#references">References</a>
 								<ul></ul>
 							</li>
 						</ul>
@@ -130,30 +132,32 @@
 			<main>
 				<div id="introduction">
 					<h1>Introduction</h1>
-					<div id="introduction-purpose">
+					<div id="purpose">
 						<h2>Purpose</h2>
-						<p>This is the purpose of the product</p>
+						<p>The purpose of this document is to test Recoil requirements editor.</p>
 					</div>
-					<div id="introduction-definitions">
-						<h2>Definitions</h2>
+					<div id="definitions">
+						<div class="header">
+							<h2>Definitions</h2>
+						</div>
 						<ul>
-							<li><span data-role="word">Word</span>:&nbsp;<span data-role="definition">Is a word used in this document.</span></li>
-							<li><span data-role="word">Recoil</span>:&nbsp;<span data-role="definition">Is the name of the software being used.</span></li>
+							<li><span data-role="word">Term</span>:&nbsp;<span data-role="definition">Is a word used in this document.</span></li>
+							<li><span data-role="word">Recoil</span>:&nbsp;<span data-role="definition">This software requirements editor.</span></li>
 							<li><span data-role="word">Software</span>:&nbsp;<span data-role="definition">Is a program or collection of programs that allow for the manipulation and display of data.</span></li>
 						</ul>
 					</div>
-					<div id="introduction-overview">
+					<div id="overview">
 						<h2>Overview</h2>
 						<p>This is the product overview.</p>
 					</div>
-					<div id="introduction-references">
+					<div id="references">
 						<h2>References</h2>
 						<p>These are optional references in the document.</p>
 					</div>
 				</div>
 				<div id="description">
 					<h1>Description</h1>
-					<p>This is the product description.</p>
+					<p>Recoil is a requirements editor for xsrd (XML Software Requirements Document) files.</p>
 				</div>
 				<div id="requirements">
 					<div class="header">
@@ -162,7 +166,7 @@
 					<div id="req-1" class="requirement">
 						<div data-role="requirement">
 							<h2>Test 1</h2>
-							<p>This is test requirement 1.</p>
+							<p>This is test requirement 1</p>
 						</div>
 						<div id="req-1-1" class="requirement">
 							<div data-role="requirement">
@@ -252,12 +256,11 @@
 				</div>
 			</main>
 		</div>
+		<div id="overlay" style="display: none;">
+			<img src="/img/spinner.gif">
+		</div>
 
 		<script src="/lib/jquery-1.11.2.min.js"></script>
-		<script src="/js/sidebar.min.js"></script>
-		<script src="/js/scrollspy.min.js"></script>
-		<script src="/js/contextmenu.min.js"></script>
-		<script src="/js/menus.min.js"></script>
 		<script src="/js/recoil.min.js"></script>
 	</body>
 </html>

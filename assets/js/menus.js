@@ -4,10 +4,11 @@ jQuery.fn.swap = function(element) {
 	return this;
 };
 
-function registerMenus(spy, handlers) {
+function registerMenus(spy, handlers, update) {
 	function editSection() {
+		var section = $(this);
 		var text, ok, cancel;
-		var p = $(this).find('p');
+		var p = section.find('p');
 		var edit = $('<div class="edit edit-block edit-text">')
 			.append(
 				text = $('<textarea class="p">' + p.text() + '</textarea>'),
@@ -20,15 +21,18 @@ function registerMenus(spy, handlers) {
 			edit.swap(p).remove();
 		});
 		ok.click(function() {
+			update('section', 'edit', section.attr('id'), {
+				text: text.val()
+			});
+
 			p.text(text.val());
 			edit.swap(p).remove();
-			// TODO: save
 		});
 	}
 
 	function newDefinition() {
 		var edit, word, definition, cancel, ok;
-		var ul = $(this).closest('ul');
+		var ul = $(this);
 
 		edit = $('<div class="edit edit-inline edit-text">')
 			.append(
@@ -43,6 +47,11 @@ function registerMenus(spy, handlers) {
 			edit.remove();
 		});
 		ok.click(function() {
+			update('definition', 'add', 'definition[' + edit.index() + ']', {
+				word: word.val(),
+				definition: definition.val()
+			});
+
 			var li = $('<li>')
 				.append(
 					$('<span data-role="word">').text(word.val()),
@@ -53,7 +62,6 @@ function registerMenus(spy, handlers) {
 
 			edit.remove();
 			ul.append(li);
-			// TODO: save
 		});
 	}
 
@@ -73,10 +81,14 @@ function registerMenus(spy, handlers) {
 			edit.swap(li).remove();
 		});
 		ok.click(function() {
+			update('definition', 'edit', 'definition[' + li.index() + ']', {
+				word: word.val(),
+				definition: definition.val()
+			});
+
 			li.find('span[data-role="word"]').text(word.val());
 			li.find('span[data-role="definition"]').text(definition.val());
 			edit.swap(li).remove();
-			// TODO: save
 		});
 	}
 
@@ -98,12 +110,21 @@ function registerMenus(spy, handlers) {
 			edit.swap(li).remove();
 		});
 		ok.click(function() {
+			update('definition', 'remove', 'definition[' + edit.index() + ']', { });
 			edit.remove();
-			// TODO: save
 		});
 	}
 
 	var reqCounter = 0;
+	function path(node) {
+		var current = '';
+		while(node.attr('id') != 'requirements') {
+			current = '[' + (node.index()-1) + ']' + current;
+			node = node.parent('.requirement, #requirements');
+		}
+		current = 'requirement' + current;
+		return current;
+	}
 	function insertRequirement(method) {
 		var title, body, cancel, add;
 		var req = $(this).closest('.requirement, #requirements');
@@ -135,6 +156,11 @@ function registerMenus(spy, handlers) {
 			edit.remove();
 		});
 		add.click(function() {
+			update('requirement', 'add', path(edit), {
+				title: title.val(),
+				body: body.val()
+			});
+
 			var div, a, id = 'req-$' + reqCounter++;
 			var value = $('<div class="requirement">').append(
 				div = $('<div data-role="requirement">').append(
@@ -165,16 +191,16 @@ function registerMenus(spy, handlers) {
 			edit.swap(value).remove();
 			parent[method].call(parent, link);
 			spy.refresh();
-			// TODO: save
 		});
 	}
 
 	function editRequirement() {
 		var title, body, cancel, ok;
-		var req = $(this);
-		var id = req.closest('.requirement, #requirements').attr('id');
+		var node = $(this);
+		var req = node.closest('.requirement, #requirements');
+		var id = req.attr('id');
 
-		var header = req.find(':header');
+		var header = node.find(':header');
 
 		var edit = $('<div class="edit edit-block edit-text">')
 			.append(
@@ -182,7 +208,7 @@ function registerMenus(spy, handlers) {
 					title = $('<input type="text" class="' + header.prop('tagName').toLowerCase() + '" value="' + header.text() + '">')
 				),
 				$('<div class="row">').append(
-					body = $('<textarea class="p">' + req.find('p').text() + '</textarea>')
+					body = $('<textarea class="p">' + node.find('p').text() + '</textarea>')
 				),
 				$('<div class="row">').append(
 					cancel = $('<input type="button" value="Cancel">'),
@@ -190,24 +216,28 @@ function registerMenus(spy, handlers) {
 				)
 			);
 
-		req.swap(edit);
+		node.swap(edit);
 		cancel.click(function() {
-			edit.swap(req);
+			edit.swap(node);
 		});
 		ok.click(function() {
+			update('requirement', 'edit', path(req), {
+				title: title.val(),
+				body: body.val()
+			});
+
 			var link = $(spy.nav())
 				.find('a[href="#' + id + '"]');
 
 			link.text(title.val());
-			req.find(':header').text(title.val());
-			req.find('p').text(body.val());
-			edit.swap(req);
-			// TODO: save
+			node.find(':header').text(title.val());
+			node.find('p').text(body.val());
+			edit.swap(node);
 		});
 	}
 
 	function deleteRequirement() {
-		var container, cance, remove;
+		var container, cancel, remove;
 		var req = $(this).closest('.requirement');
 
 		var edit = $('<div class="edit edit-block">')
@@ -226,6 +256,8 @@ function registerMenus(spy, handlers) {
 			edit.swap(req);
 		});
 		remove.click(function() {
+			update('requirement', 'remove', path(edit), { });
+
 			var link = $(spy.nav())
 				.find('a[href="#' + req.attr('id') + '"]')
 				.closest('li');
@@ -241,7 +273,6 @@ function registerMenus(spy, handlers) {
 			}
 			edit.remove();
 			spy.refresh();
-			// TODO: save
 		});
 	}
 
@@ -255,7 +286,7 @@ function registerMenus(spy, handlers) {
 	function definitionContext() {
 		return [{
 			html: '<li>New</li>',
-			handler: function(e) { newDefinition.call(e.context); }
+			handler: function(e) { newDefinition.call(e.context.parentNode); }
 		}, {
 			html: '<li>Edit</li>',
 			handler: function(e) { editDefinition.call(e.context); }
@@ -286,21 +317,27 @@ function registerMenus(spy, handlers) {
 		}];
 	}
 
-	$('#introduction-purpose')
+	$('#purpose')
 		.contextmenu(sectionContext());
-	$('#introduction-definitions ul > li')
+	$('#definitions ul > li')
 		.contextmenu(definitionContext());
-	$('#introduction-overview')
+	$('#overview')
 		.contextmenu(sectionContext());
-	$('#introduction-references')
+	$('#references')
 		.contextmenu(sectionContext());
 	$('#description')
 		.contextmenu(sectionContext());
-	$('#requirements > .header')
-		.contextmenu([{
-			html: '<li>Add</li>',
-			handler: function(e) { insertRequirement.call(e.context, 'append'); }
-		}]);
 	$('div[data-role="requirement"]')
 		.contextmenu(requirementContext());
+
+	$('#requirements > .header')
+		.contextmenu([{
+			html: '<li>New</li>',
+			handler: function(e) { insertRequirement.call(e.context, 'append'); }
+		}]);
+	$('#definitions > .header')
+		.contextmenu([{
+			html: '<li>New</li>',
+			handler: function(e) { newDefinition.call($('#definitions').find('ul:not(.context-menu)')); }
+		}]);
 }

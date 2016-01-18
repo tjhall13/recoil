@@ -1,4 +1,9 @@
 $(function() {
+	var meta = {
+		application: $('head meta[name="application"]').attr('content'),
+		filename: $('head meta[name="filename"]').attr('content')
+	};
+
 	var spy = $('#sidebar').scrollspy({
 		offset: 55
 	});
@@ -31,5 +36,31 @@ $(function() {
 		goto: goto,
 		expand: expand
 	};
-	registerMenus(spy, handlers);
+
+	var diff = [];
+	function update(type, method, reference, params) {
+		if(diff.length === 0) {
+			$('head > title').text(meta.application + ' | *' + meta.filename);
+		}
+		diff.push({
+			type: type,
+			method: method,
+			reference: reference,
+			params: params
+		});
+		console.log(diff);
+	}
+	function save() {
+		var overlay = $('#overlay');
+		overlay.show();
+		// TODO: save
+		setTimeout(function() {
+			overlay.hide();
+			$('head > title').text(meta.application + ' | ' + meta.filename);
+		}, 500);
+	}
+
+	registerMenus(spy, handlers, update);
+
+	$('.action-list li[data-action="save"]').click(save);
 });
