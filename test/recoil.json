@@ -1,5 +1,4 @@
 {
-  "document": "./test/test.srdx",
-  "port": "8080",
-  "editable": "true"
+  "src": "./test/",
+  "port": "8080"
 }

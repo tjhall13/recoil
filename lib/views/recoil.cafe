@@ -1,5 +1,4 @@
 <$js
-var document = request.recoil.data.xml.document;
 $>
 <html>
 	<head>

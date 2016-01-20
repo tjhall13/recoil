@@ -1,28 +1,30 @@
-#!/usr/bin/env node
+#!/usr/bin/env nodejs
 
 var cluster = require('cluster');
 var http = require('http');
 var nopt = require('nopt');
+var glob = require('glob');
 var path = require('path');
 var fs = require('fs');
 
 var recoil = require('../index.js');
 var pkg = require('../package.json');
-var xml = require('../lib/xml.js');
 
 function help() {
   var text = [
-	'Usage: recoil [options] <config>',
+	'Usage: recoil [options] [<config>]',
 	'Options:',
 	'  --version -v          Display version information.',
 	'  --help -h             Show this help.',
-	'  --document -d <file>  Use <file> as the requirements',
-	'                        document.',
-	'  --port -p <port>      Host web server on <port>.',
+	'  --src -s <directory>  Use <directory> as the requirements',
+	'                        source.',
+	'  --port -p <port>      Host web server on <port> Default: 8080.',
+	'  --xml -x              Include xml file extensions in search.',
+ 	'                        Default: false',
 	'',
 	'Parameters:',
 	'  <config> is the relative path to a .json file expecting',
-	'the property "document". The property "port" is optional',
+	'the property "src". The property "port" is optional',
 	'and defaults to "8080".',
 	'',
 	'To connect. Simply connect your browser to localhost:<port>'
@@ -37,12 +39,14 @@ function help() {
 var options = nopt({
 		version: Boolean,
 		help: Boolean,
-		document: path,
+		src: path,
+		xml: Boolean,
 		port: Number
 	}, {
 		v: '--version',
 		h: '--help',
-		d: '--document',
+		s: '--src',
+		x: '--xml',
 		p: '--port'
 	}, process.argv);
 
@@ -69,10 +73,11 @@ try {
 	process.exit(1);
 }
 
-if(!config.document) {
-	console.error('No requirements document provided');
+if(!config.src) {
+	console.error('No requirements source directory provided');
 	process.exit(1);
 }
+config.xml = config.xml || false;
 config.port = config.port || 8080;
 
 for(var option in config) {
@@ -81,40 +86,22 @@ for(var option in config) {
 	}
 }
 
-if(config.document.charAt(0) == '~') {
-	config.document = path.resolve(process.env.HOME + config.document.substr(1));
+if(config.src.charAt(0) == '~') {
+	config.src = path.resolve(process.env.HOME + config.src.substr(1));
 } else {
-	config.document = path.resolve(config.document);
+	config.src = path.resolve(config.src);
 }
 
 if(cluster.isMaster) {
 	process.title = 'recoil';
 	var worker = cluster.fork();
-	if(config.document) {
-		fs.watch(config.document,  function(event, filename) {
-			if(event == 'change') {
-				var data = xml.readFileSync(config.document);
-				worker.send({
-					data: data
-				});
-			}
-		});
-	}
+	worker.on('exit', function() {
+		console.error('exited');
+		worker = cluster.fork();
+	});
 } else {
 	var ctx = {
-		data: xml.readFileSync(config.document),
-		save: function(err, data) {
-			if(err) {
-				console.error('save:', err);
-			} else {
-				console.log(data);
-			}
-		}
+		src: config.src
 	};
-	process.on('message', function(msg) {
-		if(msg.data) {
-			ctx.data = msg.data;
-		}
-	});
 	http.createServer(recoil(ctx)).listen(config.port);
 }

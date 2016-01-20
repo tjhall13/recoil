@@ -1,26 +1,18 @@
 var express = require('express');
 var path = require('path');
-
 require('cafescript');
-var editor = require('./views/editor.cafe');
+
+var error = require('./lib/error.js');
+var view = require('./lib/view.js');
+var api = require('./lib/api.js');
 
 module.exports = function(ctx) {
 	var app = express();
 
 	app.use(express.static(path.resolve(__dirname, 'theme/')));
-	app.use('/',
-		function(req, res, next) {
-			try {
-				req.recoil = {
-					data: ctx.data,
-					save: ctx.save
-				};
-				next();
-			} catch(err) {
-				next(err);
-			}
-		},
-		editor.middleware
-	);
+	app.use('/api', api(ctx));
+	app.use(/\/(.+)/, view(ctx));
+	app.use(error(ctx));
+
 	return app;
 };
