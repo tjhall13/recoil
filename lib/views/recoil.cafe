@@ -1,8 +1,31 @@
 <$js
+	var application = 'Recoil';
+	var path = request.recoil.path;
+	if(path != '') {
+		application += ' | ';
+	}
+
+	var directory = require('./directory.cafe');
+	var document = require('./document.cafe');
 $>
 <html>
 	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="/css/recoil.min.css">
+
+		<meta name="application" content="Recoil">
+		<meta name="pathname" content="<$js print(path); $>">
+		<title><$js print(application); print(path); $></title>
 	</head>
 	<body>
+<$js
+	if(request.recoil.directory) {
+		directory(request);
+	} else if(request.recoil.document) {
+		document(request);
+	}
+$>
+		<script src="/lib/jquery-1.11.2.min.js"></script>
+		<script src="/js/recoil.min.js"></script>
 	</body>
 </html>

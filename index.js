@@ -11,7 +11,7 @@ module.exports = function(ctx) {
 
 	app.use(express.static(path.resolve(__dirname, 'theme/')));
 	app.use('/api', api(ctx));
-	app.use(/\/(.+)/, view(ctx));
+	app.use(/\/(.*)/, view(ctx));
 	app.use(error(ctx));
 
 	return app;

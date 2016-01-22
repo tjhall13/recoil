@@ -101,7 +101,8 @@ if(cluster.isMaster) {
 	});
 } else {
 	var ctx = {
-		src: config.src
+		src: config.src,
+		xml: config.xml
 	};
 	http.createServer(recoil(ctx)).listen(config.port);
 }

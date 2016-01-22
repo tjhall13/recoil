@@ -1,0 +1,164 @@
+<$js
+var model = request.recoil.document;
+var document = model.xml.document;
+
+var introduction = document.introduction[0];
+var description = document.description[0];
+var requirements = document.requirements[0];
+
+function definitions(list) {
+	var n, word, definition;
+	for(n = 0; n < list.length; n++) {
+		word = list[n].$.word;
+		definition = list[n]._; $>
+		<li>
+			<span data-role="word"><$ print(word); $></span>:&nbsp;<span data-role="definition"><$ print(definition); $></span>
+		</li> <$js
+	}
+}
+
+function links(req, id) {
+	if(!id) {
+		id = '#req';
+	}
+	var n, parent, title;
+	for(n = 0; n < req.length; n++) {
+		parent = 'requirement' in req[n];
+		title = req[n].$.title; $>
+		<li class="<$ print(parent ? 'parent' : ''); ; $>">
+			<a href="<$ print(id + '-' + n); $>"><$ print(title); $></a>
+			<ul> <$js
+				if(parent) {
+					links(req[n].requirement, id + '-' + n);
+				} $>
+			</ul>
+		</li><$js
+	}
+}
+
+function editor(req, id, size) {
+	if(!id) {
+		id = 'req';
+	}
+
+	if(!size) {
+		size = 2;
+	}
+	if(size > 6) {
+		size = 6;
+	}
+	function header(text) {
+		print('<h' + size + '>' + text + '</h' + size + '>');
+	}
+
+	var n, parent, title, body;
+	for(n = 0; n < req.length; n++) {
+		parent = 'requirement' in req[n];
+		title = req[n].$.title;
+		body = req[n].$.body; $>
+		<div id="<$ print(id + '-' + n); $>" class="requirement">
+			<div data-role="requirement">
+				<$ header(title); $>
+				<p><$ print(body); $></p>
+			</div> <$js
+			if(parent) {
+				editor(req[n].requirement, id + '-' + n, size + 1);
+			} $>
+		</div> <$js
+	}
+}
+
+$>
+<header>
+	<div class="menu-btn">
+		<a id="menuButton">&#9776;</a>
+	</div>
+	<h2>Recoil</h2>
+	<div class="settings-btn">
+		<a id="settingsButton">&#8942;</a>
+		<ul class="settings-menu action-list">
+			<li data-action="new">New</li>
+			<li data-action="save">Save</li>
+			<li data-action="link" data-href="/about/">About</li>
+		</ul>
+	</div>
+</header>
+<div class="container">
+	<nav id="sidebar">
+		<ul class="requirements-menu action-list">
+			<li data-action="new">New</li>
+			<li data-action="save">Save</li>
+			<li data-action="link" data-href="/about/">About</li>
+		</ul>
+		<hr class="requirements-divider">
+		<ul class="requirements-nav">
+			<li class="parent">
+				<a href="#introduction">Introduction</a>
+				<ul>
+					<li>
+						<a href="#purpose">Purpose</a>
+						<ul></ul>
+					</li>
+					<li>
+						<a href="#definitions">Definitions</a>
+						<ul></ul>
+					</li>
+					<li>
+						<a href="#overview">System Overview</a>
+						<ul></ul>
+					</li>
+					<li>
+						<a href="#references">References</a>
+						<ul></ul>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a href="#description">Description</a>
+				<ul></ul>
+			</li>
+			<li class="parent">
+				<a href="#requirements">Requirements</a>
+				<ul><$ links(requirements.requirement); $></ul>
+			</li>
+		</ul>
+	</nav>
+	<main>
+		<div id="introduction">
+			<h1>Introduction</h1>
+			<div id="purpose">
+				<h2>Purpose</h2>
+				<p><$ print(introduction.purpose[0]); $></p>
+			</div>
+			<div id="definitions">
+				<div class="header">
+					<h2>Definitions</h2>
+				</div>
+				<ul>
+					<$ definitions(introduction.definitions[0].definition); $>
+				</ul>
+			</div>
+			<div id="overview">
+				<h2>Overview</h2>
+				<p><$ print(introduction.overview[0]); $></p>
+			</div>
+			<div id="references">
+				<h2>References</h2>
+				<p><$ print(introduction.references[0]); $></p>
+			</div>
+		</div>
+		<div id="description">
+			<h1>Description</h1>
+			<p><$ print(description); $></p>
+		</div>
+		<div id="requirements">
+			<div class="header">
+				<h1>Requirements</h1>
+			</div>
+			<$ editor(requirements.requirement); $>
+		</div>
+	</main>
+</div>
+<div id="overlay" style="display: none;">
+	<img src="/img/spinner.gif">
+</div>
