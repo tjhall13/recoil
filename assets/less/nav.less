@@ -41,8 +41,10 @@ nav {
 					transform: rotate(45deg);
 				}
 			}
-			&.selected > a {
-				color: @primary;
+			&.selected {
+				&:before, & > a {
+					color: @primary;
+				}
 			}
 			&:before {
 				display: inline-block;

@@ -40,7 +40,7 @@ $(function() {
 	var diff = [];
 	function update(type, method, reference, params) {
 		if(diff.length === 0) {
-			$('head > title').text(meta.application + ' | *' + meta.filename);
+			$('head > title').text(meta.application + ' | *' + meta.pathname);
 		}
 		diff.push({
 			type: type,
@@ -56,7 +56,7 @@ $(function() {
 		// TODO: save
 		setTimeout(function() {
 			overlay.hide();
-			$('head > title').text(meta.application + ' | ' + meta.filename);
+			$('head > title').text(meta.application + ' | ' + meta.pathname);
 		}, 500);
 	}
 
