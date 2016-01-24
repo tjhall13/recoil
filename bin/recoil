@@ -69,7 +69,7 @@ var config;
 try {
 	config = require(path.resolve(filename));
 } catch(err) {
-	console.error(err.message);
+	console.error(err.stack);
 	process.exit(1);
 }
 
