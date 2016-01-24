@@ -81,7 +81,7 @@ function registerMenus(spy, handlers, update) {
 			edit.swap(li).remove();
 		});
 		ok.click(function() {
-			update('definition', 'edit', 'definition[' + li.index() + ']', {
+			update('definition', 'edit', 'definition[' + edit.index() + ']', {
 				word: word.val(),
 				definition: definition.val()
 			});
@@ -93,14 +93,14 @@ function registerMenus(spy, handlers, update) {
 	}
 
 	function deleteDefinition() {
-		var container, cancel, ok;
+		var container, cancel, remove;
 		var li = $(this);
 
 		var edit = $('<div class="edit edit-block">')
 			.append(
 				container = $('<div class="row">'),
 				cancel = $('<input type="button" value="Cancel">'),
-				ok = $('<input type="button" value="Remove">')
+				remove = $('<input type="button" value="Remove">')
 			);
 
 		li.swap(edit);
@@ -109,8 +109,8 @@ function registerMenus(spy, handlers, update) {
 			li.detach();
 			edit.swap(li).remove();
 		});
-		ok.click(function() {
-			update('definition', 'remove', 'definition[' + edit.index() + ']', { });
+		remove.click(function() {
+			update('definition', 'remove', 'definition[' + edit.index() + ']');
 			edit.remove();
 		});
 	}
@@ -256,7 +256,7 @@ function registerMenus(spy, handlers, update) {
 			edit.swap(req);
 		});
 		remove.click(function() {
-			update('requirement', 'remove', path(edit), { });
+			update('requirement', 'remove', path(edit));
 
 			var link = $(spy.nav())
 				.find('a[href="#' + req.attr('id') + '"]')

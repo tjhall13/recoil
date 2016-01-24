@@ -1,7 +1,7 @@
 $(function() {
 	var meta = {
 		application: $('head meta[name="application"]').attr('content'),
-		filename: $('head meta[name="filename"]').attr('content')
+		pathname: $('head meta[name="pathname"]').attr('content')
 	};
 
 	var spy = $('#sidebar').scrollspy({
@@ -48,19 +48,35 @@ $(function() {
 			reference: reference,
 			params: params
 		});
-		console.log(diff);
 	}
 	function save() {
 		var overlay = $('#overlay');
 		overlay.show();
-		// TODO: save
-		setTimeout(function() {
+		$.ajax({
+			method: 'POST',
+			data: JSON.stringify(diff),
+			contentType: 'application/json',
+			url: '/api/commit/' + meta.pathname
+		}).success(function() {
+			diff = [];
 			overlay.hide();
 			$('head > title').text(meta.application + ' | ' + meta.pathname);
-		}, 500);
+		}).fail(function(data) {
+			overlay.hide();
+			console.error(data);
+		});
 	}
 
 	registerMenus(spy, handlers, update);
 
 	$('.action-list li[data-action="save"]').click(save);
+	$(window).keydown(function(e) {
+		if(e.ctrlKey || e.metaKey) {
+			switch (String.fromCharCode(e.which).toLowerCase()) {
+				case 's':
+					save();
+					e.preventDefault();
+			}
+		}
+	});
 });
