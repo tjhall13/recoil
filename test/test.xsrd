@@ -14,23 +14,23 @@
 	<requirements>
 		<requirement title="Test 1" body="This is test requirement 1">
 			<requirement title="Test 1.1" body="This is test requirement 1.1">
-				<requirement title="Test 1.1.1" body="This is test requirement 1.1.1" />
-				<requirement title="Test 1.1.2" body="This is test requirement 1.1.2" />
+				<requirement title="Test 1.1.1" body="This is test requirement 1.1.1"/>
+				<requirement title="Test 1.1.2" body="This is test requirement 1.1.2"/>
 				<requirement title="Test 1.1.3" body="This is test requirement 1.1.3">
 					<requirement title="Test 1.1.3.1" body="This is test requirement 1.1.3.1">
-						<requirement title="Test 1.1.3.1.1" body="This is test requirement 1.1.3.1.1" />
+						<requirement title="Test 1.1.3.1.1" body="This is test requirement 1.1.3.1.1"/>
 					</requirement>
 				</requirement>
 			</requirement>
 			<requirement title="Test 1.2" body="This is test requirement 1.2">
-				<requirement title="Test 1.2.1" body="This is test requirement 1.2.1" />
-				<requirement title="Test 1.2.2" body="This is test requirement 1.2.2" />
-				<requirement title="Test 1.2.3" body="This is test requirement 1.2.3" />
+				<requirement title="Test 1.2.1" body="This is test requirement 1.2.1"/>
+				<requirement title="Test 1.2.2" body="This is test requirement 1.2.2"/>
+				<requirement title="Test 1.2.3" body="This is test requirement 1.2.3"/>
 			</requirement>
 			<requirement title="Test 1.3" body="This is test requirement 1.3">
-				<requirement title="Test 1.3.1" body="This is test requirement 1.3.1" />
-				<requirement title="Test 1.3.2" body="This is test requirement 1.3.2" />
-				<requirement title="Test 1.3.3" body="This is test requirement 1.3.3" />
+				<requirement title="Test 1.3.1" body="This is test requirement 1.3.1"/>
+				<requirement title="Test 1.3.2" body="This is test requirement 1.3.2"/>
+				<requirement title="Test 1.3.3" body="This is test requirement 1.3.3"/>
 			</requirement>
 		</requirement>
 	</requirements>
