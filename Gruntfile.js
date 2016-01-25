@@ -6,7 +6,7 @@ module.exports = function(grunt) {
 					compress: false
 				},
 				files: {
-					'theme/css/recoil.min.css': ['assets/less/**.less']
+					'theme/css/recoil.min.css': ['assets/less/**/*.less']
 				}
 			},
 			release: {
@@ -14,7 +14,7 @@ module.exports = function(grunt) {
 					compress: true
 				},
 				files: {
-					'theme/css/recoil.min.css': ['assets/less/recoil.less']
+					'theme/css/recoil.min.css': ['assets/less/**/*.less']
 				}
 			}
 		},
@@ -23,7 +23,7 @@ module.exports = function(grunt) {
 				options: {
 					jquery: true
 				},
-				src: ['assets/js/**.js']
+				src: ['assets/js/**/*.js']
 			},
 			server: {
 				src: ['Gruntfile.js', 'bin/recoil', 'index.js', 'lib/**.js']
@@ -38,7 +38,9 @@ module.exports = function(grunt) {
 					preserveComments: 'all'
 				},
 				files: {
-					'theme/js/recoil.min.js': ['assets/js/**.js']
+					'theme/js/recoil.min.js': ['assets/js/*.js'],
+					'theme/js/document.min.js': ['assets/js/document/**.js'],
+					'theme/js/directory.min.js': ['assets/js/directory/**.js']
 				}
 			},
 			release: {
@@ -48,7 +50,9 @@ module.exports = function(grunt) {
 					preserveComments: false
 				},
 				files: {
-					'theme/js/recoil.min.js': ['assets/js/**.js']
+					'theme/js/recoil.min.js': ['assets/js/*.js'],
+					'theme/js/document.min.js': ['assets/js/document/**/*.js'],
+					'theme/js/directory.min.js': ['assets/js/directory/**/*.js']
 				}
 			}
 		}

@@ -28,9 +28,9 @@ $(function() {
 		e.preventDefault();
 	}
 
-	$('.requirements-nav li.parent > a').click(expand);
-	$('.requirements-nav li.parent > a').dblclick(goto);
-	$('.requirements-nav li:not(.parent) > a').click(goto);
+	$('.nav-tree li.parent > a').click(expand);
+	$('.nav-tree li.parent > a').dblclick(goto);
+	$('.nav-tree li:not(.parent) > a').click(goto);
 
 	var handlers = { 
 		goto: goto,

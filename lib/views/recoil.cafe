@@ -18,6 +18,8 @@ $>
 		<title><$js print(application); print(path); $></title>
 	</head>
 	<body>
+		<script src="/lib/jquery-1.11.2.min.js"></script>
+		<script src="/js/recoil.min.js"></script>
 <$js
 	if(request.recoil.directory) {
 		directory(request);
@@ -25,7 +27,5 @@ $>
 		document(request);
 	}
 $>
-		<script src="/lib/jquery-1.11.2.min.js"></script>
-		<script src="/js/recoil.min.js"></script>
 	</body>
 </html>
