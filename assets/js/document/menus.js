@@ -15,8 +15,9 @@ function registerMenus(spy, handlers, update) {
 				cancel = $('<input type="button" value="Cancel">'),
 				ok = $('<input type="button" value="OK">')
 			);
-
 		p.swap(edit);
+		text.focus();
+
 		cancel.click(function() {
 			edit.swap(p).remove();
 		});
@@ -42,6 +43,7 @@ function registerMenus(spy, handlers, update) {
 				ok = $('<input type="button" value="Add">')
 			);
 		ul.append(edit);
+		word.focus();
 
 		cancel.click(function() {
 			edit.remove();
@@ -75,8 +77,9 @@ function registerMenus(spy, handlers, update) {
 				cancel = $('<input type="button" value="Cancel">'),
 				ok = $('<input type="button" value="OK">')
 			);
-
 		li.swap(edit);
+		word.focus();
+
 		cancel.click(function() {
 			edit.swap(li).remove();
 		});
@@ -102,8 +105,8 @@ function registerMenus(spy, handlers, update) {
 				cancel = $('<input type="button" value="Cancel">'),
 				remove = $('<input type="button" value="Remove">')
 			);
-
 		li.swap(edit);
+
 		container.append(li);
 		cancel.click(function() {
 			li.detach();
@@ -150,8 +153,9 @@ function registerMenus(spy, handlers, update) {
 					add = $('<input type="button" value="Add">')
 				)
 			);
-
 		req[method].call(req, edit);
+		title.focus();
+
 		cancel.click(function() {
 			edit.remove();
 		});
@@ -215,8 +219,9 @@ function registerMenus(spy, handlers, update) {
 					ok = $('<input type="button" value="OK">')
 				)
 			);
-
 		node.swap(edit);
+		title.focus();
+
 		cancel.click(function() {
 			edit.swap(node);
 		});
@@ -248,9 +253,9 @@ function registerMenus(spy, handlers, update) {
 					remove = $('<input type="button" value="Remove">')
 				)
 			);
-
 		req.swap(edit);
 		container.append(req);
+
 		cancel.click(function() {
 			req.detach();
 			edit.swap(req);
