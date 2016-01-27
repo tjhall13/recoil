@@ -1,21 +1,37 @@
-function ContextMenu(links) {
+function ContextMenu(summary) {
 	var self = this;
 	var menu = $('<ul class="context-menu"></ul>');
 	var handlers = [];
-	links.forEach(function(link) {
-		menu.append(link.html);
-		if(link.handler) {
-			handlers.push(link.handler);
-		}
-	});
+
+	function clear() {
+		menu.empty();
+		handlers = [];
+	}
+
+	function populate(links) {
+		links.forEach(function(link) {
+			menu.append(link.html);
+			if(link.handler) {
+				handlers.push(link.handler);
+			}
+		});
+	}
+
+	if(Array.isArray(summary)) {
+		populate(summary);
+	}
 	ContextMenu.menus.push(this);
 
-	this.show = function(context, position) {
+	this.show = function(context, e) {
 		ContextMenu.menus.forEach(function(menu) {
 			if(menu != self) {
 				menu.hide();
 			}
 		});
+		if(typeof summary == 'function') {
+			clear();
+			populate(summary(e));
+		}
 		menu.find('li').each(function(index, li) {
 			$(li).off('click');
 			$(li).click(function(e) {
@@ -24,7 +40,10 @@ function ContextMenu(links) {
 				self.hide();
 			});
 		});
-		menu.offset(position);
+		menu.offset({
+			top: e.pageY,
+			left: e.pageX
+		});
 		menu.show();
 	};
 	this.hide = function() {
@@ -37,13 +56,10 @@ function ContextMenu(links) {
 
 ContextMenu.menus = [];
 
-jQuery.fn.contextmenu = function(links) {
-	var cm = new ContextMenu(links);
-	$(this).on('contextmenu', function(e) {
-		cm.show(this, {
-			top: e.pageY,
-			left: e.pageX
-		});
+jQuery.fn.contextmenu = function(summary) {
+	var cm = new ContextMenu(summary);
+	this.on('contextmenu', function(e) {
+		cm.show(this, e);
 		e.preventDefault();
 	});
 	$(window).on('click', function(e) {

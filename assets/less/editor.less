@@ -1,8 +1,20 @@
 @import "constants.less";
 
+@background-size: 160px;
+
 main {
 	div {
 		display: flex;
+		flex-direction: column;
+	}
+	.row, .column {
+		display: flex;
+	}
+	.row {
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
+	.column {
 		flex-direction: column;
 	}
 	.requirement {
@@ -58,16 +70,6 @@ main {
 				margin: 15px 10px 3px 10px;	
 			}
 		}
-
-		.row, .column {
-			display: flex;
-		}
-		.row {
-			flex-direction: row;
-		}
-		.column {
-			flex-direction: column;
-		}
 	}
 
 	.edit-block {
@@ -113,5 +115,60 @@ main {
 		font-size: 16;
 		margin: 10px 0;
 		display: inline-block;
+	}
+
+	.icon {
+		align-items: center;
+		margin: 40px;
+
+		&:hover {
+			cursor: pointer;
+		}
+
+		span:not(.img) {
+			text-align: center;
+			border-radius: 5px;
+			padding: 0 5px;
+			width: @icon-size;
+			word-wrap: break-word;
+		}
+		span.img {
+			width: @icon-size;
+			height: @icon-size;
+			background-size: @background-size;
+			background-position-x: 0;
+			background-image: url('/img/icons.png');
+			background-repeat: no-repeat;
+		}
+		&.icon-folder span.img {
+			background-position-y: 0;
+		}
+		&.icon-file span.img {
+			background-position-y: -@background-size;
+		}
+
+		&.active {
+			span.img {
+				background-position-x: -@background-size/2;
+			}
+
+			span:not(.img) {
+				color: white;
+				background-color: lighten(@primary, @color-offset);
+			}
+		}
+		&.icon-edit {
+			span.img {
+				background-position-x: -@background-size/2;
+			}
+		}
+	}
+}
+
+@media(max-width: 850px) {
+	main {
+		.icon {
+			margin: 20px;
+		}
 	}
 }

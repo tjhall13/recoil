@@ -5,8 +5,8 @@
 		application += ' | ';
 	}
 
-	var directory = require('./directory.cafe');
-	var document = require('./document.cafe');
+	var inode = require('./inode.cafe');
+	var editor = require('./editor.cafe');
 $>
 <html>
 	<head>
@@ -22,9 +22,9 @@ $>
 		<script src="/js/recoil.min.js"></script>
 <$js
 	if(request.recoil.directory) {
-		directory(request);
+		inode(request.recoil);
 	} else if(request.recoil.document) {
-		document(request);
+		editor(request.recoil);
 	}
 $>
 	</body>
