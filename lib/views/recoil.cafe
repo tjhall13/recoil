@@ -1,6 +1,6 @@
 <$js
 	var application = 'Recoil';
-	var path = request.recoil.path;
+	var path = request.params.path;
 	if(path != '') {
 		application += ' | ';
 	}
@@ -21,10 +21,10 @@ $>
 		<script src="/lib/jquery-1.11.2.min.js"></script>
 		<script src="/js/recoil.min.js"></script>
 <$js
-	if(request.recoil.directory) {
-		inode(request.recoil);
-	} else if(request.recoil.document) {
-		editor(request.recoil);
+	if(request.params.directory) {
+		inode(request.params.directory);
+	} else if(request.params.document) {
+		editor(request.params.document);
 	}
 $>
 	</body>

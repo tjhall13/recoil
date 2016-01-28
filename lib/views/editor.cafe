@@ -1,5 +1,5 @@
 <$js
-var model = arguments[0].document;
+var model = arguments[0];
 var document = model.xml.document;
 
 var introduction = document.introduction[0];
@@ -25,14 +25,14 @@ function links(req, id) {
 	for(n = 0; n < req.length; n++) {
 		parent = 'requirement' in req[n];
 		title = req[n].$.title; $>
-		<li class="<$ print(parent ? 'parent' : ''); ; $>">
+		<li class="<$ print(parent ? 'parent' : ''); $>">
 			<a href="<$ print(id + '-' + n); $>"><$ print(title); $></a>
 			<ul> <$js
 				if(parent) {
 					links(req[n].requirement, id + '-' + n);
 				} $>
 			</ul>
-		</li><$js
+		</li> <$js
 	}
 }
 
