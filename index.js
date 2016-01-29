@@ -3,15 +3,15 @@ var path = require('path');
 
 var cafescript = require('cafescript');
 
-var error = require('./lib/error.js');
-var view = require('./lib/view.js');
-var api = require('./lib/api.js');
+var error = require('./app/error.js');
+var view = require('./app/view.js');
+var api = require('./app/api.js');
 
 module.exports = function(ctx) {
 	var app = express();
 	app.engine('cafe', cafescript.render);
 
-	app.set('views', './lib/views/');
+	app.set('views', './app/views/');
 	app.set('view engine', 'cafe');
 
 	app.use(express.static(path.resolve(__dirname, 'theme/')));
