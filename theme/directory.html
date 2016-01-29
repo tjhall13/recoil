@@ -8,9 +8,6 @@
 		<title>Recoil | directory/</title>
 	</head>
 	<body>
-		<script src="/lib/jquery-1.11.2.min.js"></script>
-		<script src="/js/recoil.min.js"></script>
-
 		<header>
 			<div class="menu-btn">
 				<a id="menuButton">&#9776;</a>
@@ -29,42 +26,51 @@
 					<li data-action="link" data-href="/about/">About</li>
 				</ul>
 				<hr class="nav-divider">
+				<ul class="nav-tree">
+					<li class="heading">
+						<a href="/">File System</a>
+						<ul>
+							<li class="parent active" data-status="current">
+								<a href="directory/">directory</a>
+								<ul>
+									<li class="parent">
+										<a href="recursive/">recursive</a>
+										<ul>
+											<li>
+												<a href="test.xsrd">test.xsrd</a>
+												<ul></ul>
+											</li>
+										</ul>
+									</li>
+									<li>
+										<a href="test.xml">test.xml</a>
+										<ul></ul>
+									</li>
+									<li>
+										<a href="test.xsrd">test.xsrd</a>
+										<ul></ul>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<a href="test.xsrd">test.xsrd</a>
+								<ul></ul>
+							</li>
+						</ul>
+					</li>
+				</ul>
 			</nav>
 			<main>
 				<div class="row">
-					<div class="icon icon-folder">
+					<div class="icon icon-folder" data-href="recursive/">
 						<span class="img"></span>
-						<span>directory</span>
+						<span>recursive</span>
 					</div>
-					<div class="icon icon-file">
-						<span class="img"></span>
-						<span>test.xml</span>
-					</div>
-					<div class="icon icon-file">
-						<span class="img"></span>
-						<span>test.xsrd</span>
-					</div>
-					<div class="icon icon-folder">
-						<span class="img"></span>
-						<span>directory</span>
-					</div>
-					<div class="icon icon-file">
+					<div class="icon icon-file" data-href="test.xml">
 						<span class="img"></span>
 						<span>test.xml</span>
 					</div>
-					<div class="icon icon-file">
-						<span class="img"></span>
-						<span>test.xsrd</span>
-					</div>
-					<div class="icon icon-folder">
-						<span class="img"></span>
-						<span>directory</span>
-					</div>
-					<div class="icon icon-file">
-						<span class="img"></span>
-						<span>test.xml</span>
-					</div>
-					<div class="icon icon-file">
+					<div class="icon icon-file" data-href="test.xsrd">
 						<span class="img"></span>
 						<span>test.xsrd</span>
 					</div>
@@ -72,6 +78,8 @@
 			</main>
 		</div>
 
+		<script src="/lib/jquery-1.11.2.min.js"></script>
+		<script src="/js/recoil.min.js"></script>
 		<script src="/js/directory.min.js"></script>
 	</body>
 </html>

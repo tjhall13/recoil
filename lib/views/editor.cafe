@@ -1,5 +1,12 @@
 <$js
-var model = arguments[0];
+
+var application = 'Recoil';
+var path = request.params.path;
+if(path != '') {
+	application += ' | ';
+}
+
+var model = request.params.document;
 var document = model.xml.document;
 
 var introduction = document.introduction[0];
@@ -67,101 +74,115 @@ function editor(req, id, size) {
 		</div> <$js
 	}
 }
-
 $>
-<header>
-	<div class="menu-btn">
-		<a id="menuButton">&#9776;</a>
-	</div>
-	<h2>Recoil</h2>
-	<div class="settings-btn">
-		<a id="settingsButton">&#8942;</a>
-		<ul class="settings-menu action-list">
-			<li data-action="link" data-href="/new/">New</li>
-			<li data-action="open">Open</li>
-			<li data-action="save">Save</li>
-			<li data-action="link" data-href="/about/">About</li>
-		</ul>
-	</div>
-</header>
-<div class="container">
-	<nav id="sidebar">
-		<ul class="nav-menu action-list">
-			<li data-action="link" data-href="/new/">New</li>
-			<li data-action="open">Open</li>
-			<li data-action="save">Save</li>
-			<li data-action="link" data-href="/about/">About</li>
-		</ul>
-		<hr class="nav-divider">
-		<ul class="nav-tree">
-			<li class="parent">
-				<a href="#introduction">Introduction</a>
-				<ul>
-					<li>
-						<a href="#purpose">Purpose</a>
-						<ul></ul>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="/css/recoil.min.css">
+
+		<meta name="application" content="Recoil">
+		<meta name="pathname" content="<$js print(path); $>">
+		<title><$js print(application); print(path); $></title>
+	</head>
+	<body>
+		<header>
+			<div class="menu-btn">
+				<a id="menuButton">&#9776;</a>
+			</div>
+			<h2>Recoil</h2>
+			<div class="settings-btn">
+				<a id="settingsButton">&#8942;</a>
+				<ul class="settings-menu action-list">
+					<li data-action="link" data-href="/new/">New</li>
+					<li data-action="open">Open</li>
+					<li data-action="save">Save</li>
+					<li data-action="link" data-href="/about/">About</li>
+				</ul>
+			</div>
+		</header>
+		<div class="container">
+			<nav id="sidebar">
+				<ul class="nav-menu action-list">
+					<li data-action="link" data-href="/new/">New</li>
+					<li data-action="open">Open</li>
+					<li data-action="save">Save</li>
+					<li data-action="link" data-href="/about/">About</li>
+				</ul>
+				<hr class="nav-divider">
+				<ul class="nav-tree">
+					<li class="parent">
+						<a href="#introduction">Introduction</a>
+						<ul>
+							<li>
+								<a href="#purpose">Purpose</a>
+								<ul></ul>
+							</li>
+							<li>
+								<a href="#definitions">Definitions</a>
+								<ul></ul>
+							</li>
+							<li>
+								<a href="#overview">System Overview</a>
+								<ul></ul>
+							</li>
+							<li>
+								<a href="#references">References</a>
+								<ul></ul>
+							</li>
+						</ul>
 					</li>
 					<li>
-						<a href="#definitions">Definitions</a>
+						<a href="#description">Description</a>
 						<ul></ul>
 					</li>
-					<li>
-						<a href="#overview">System Overview</a>
-						<ul></ul>
-					</li>
-					<li>
-						<a href="#references">References</a>
-						<ul></ul>
+					<li class="parent">
+						<a href="#requirements">Requirements</a>
+						<ul><$ links(requirements.requirement || []); $></ul>
 					</li>
 				</ul>
-			</li>
-			<li>
-				<a href="#description">Description</a>
-				<ul></ul>
-			</li>
-			<li class="parent">
-				<a href="#requirements">Requirements</a>
-				<ul><$ links(requirements.requirement); $></ul>
-			</li>
-		</ul>
-	</nav>
-	<main>
-		<div id="introduction">
-			<h1>Introduction</h1>
-			<div id="purpose">
-				<h2>Purpose</h2>
-				<p><$ print(introduction.purpose[0]); $></p>
-			</div>
-			<div id="definitions">
-				<div class="header">
-					<h2>Definitions</h2>
+			</nav>
+			<main>
+				<div id="introduction">
+					<h1>Introduction</h1>
+					<div id="purpose">
+						<h2>Purpose</h2>
+						<p><$ print(introduction.purpose[0]); $></p>
+					</div>
+					<div id="definitions">
+						<div class="header">
+							<h2>Definitions</h2>
+						</div>
+						<ul>
+							<$ definitions(introduction.definitions[0].definition || []); $>
+						</ul>
+					</div>
+					<div id="overview">
+						<h2>Overview</h2>
+						<p><$ print(introduction.overview[0]); $></p>
+					</div>
+					<div id="references">
+						<h2>References</h2>
+						<p><$ print(introduction.references[0]); $></p>
+					</div>
 				</div>
-				<ul>
-					<$ definitions(introduction.definitions[0].definition); $>
-				</ul>
-			</div>
-			<div id="overview">
-				<h2>Overview</h2>
-				<p><$ print(introduction.overview[0]); $></p>
-			</div>
-			<div id="references">
-				<h2>References</h2>
-				<p><$ print(introduction.references[0]); $></p>
-			</div>
+				<div id="description">
+					<h1>Description</h1>
+					<p><$ print(description); $></p>
+				</div>
+				<div id="requirements">
+					<div class="header">
+						<h1>Requirements</h1>
+					</div>
+					<$ editor(requirements.requirement || []); $>
+				</div>
+			</main>
 		</div>
-		<div id="description">
-			<h1>Description</h1>
-			<p><$ print(description); $></p>
+		<div id="overlay" style="display: none;">
+			<img src="/img/spinner.gif">
 		</div>
-		<div id="requirements">
-			<div class="header">
-				<h1>Requirements</h1>
-			</div>
-			<$ editor(requirements.requirement); $>
-		</div>
-	</main>
-</div>
-<div id="overlay" style="display: none;">
-	<img src="/img/spinner.gif">
-</div>
-<script src="/js/document.min.js"></script>
+
+		<script src="/lib/jquery-1.11.2.min.js"></script>
+		<script src="/js/recoil.min.js"></script>
+		<script src="/js/document.min.js"></script>
+	</body>
+</html>

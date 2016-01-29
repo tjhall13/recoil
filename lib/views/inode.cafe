@@ -1,2 +1,100 @@
 <$js
+
+var application = 'Recoil';
+var path = request.params.path;
+if(path != '') {
+	application += ' | ';
+}
+
+var filesystem = request.params.structure;
+var model = request.params.directory;
+
+function structure(filesystem, n) {
+	if(n === undefined) {
+		n = 0;
+	}
+
+	var order = path.split('/');
+	var active, parent, current, className;
+	if(order.length) {
+		current = ( n == order.length - 2 );
+	} else {
+		current = false;
+	}
+
+	for(var node in filesystem) {
+		active = order[n] == node;
+		parent = typeof filesystem[node] == 'object';
+		className = (active ? 'active' : '') + ' ' + (parent ? 'parent' : ''); $>
+		<li class="<$ print(className); $>" data-status="<$ print(active && current ? 'current' : ''); $>">
+			<a href="<$ print(node + (parent ? '/' : '')); $>"><$ print(node); $></a>
+			<ul><$js
+				if(parent) {
+					structure(filesystem[node], n + 1);
+				} $>
+			</ul>
+		</li> <$js
+	}
+}
+
+function files(icons) {
+	icons.forEach(function(icon) {
+		var className = 'icon ' + (icon.file ? 'icon-file' : 'icon-folder');
+		var ref = icon.path + (icon.file ? '' : '/'); $>
+		<div class="<$ print(className); $>" data-href="<$ print(ref); $>">
+			<span class="img"></span>
+			<span><$ print(icon.path); $></span>
+		</div> <$js
+	});
+}
+
 $>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="/css/recoil.min.css">
+
+		<meta name="application" content="Recoil">
+		<meta name="pathname" content="<$js print(path); $>">
+		<title><$js print(application); print(path); $></title>
+	</head>
+	<body>
+		<header>
+			<div class="menu-btn">
+				<a id="menuButton">&#9776;</a>
+			</div>
+			<h2>Recoil</h2>
+			<div class="settings-btn">
+				<a id="settingsButton">&#8942;</a>
+				<ul class="settings-menu action-list">
+					<li data-action="link" data-href="/about/">About</li>
+				</ul>
+			</div>
+		</header>
+		<div class="container">
+			<nav id="sidebar">
+				<ul class="nav-menu action-list">
+					<li data-action="link" data-href="/about/">About</li>
+				</ul>
+				<hr class="nav-divider">
+				<ul class="nav-tree">
+					<li class="heading" data-status="<$ print(path == '' ? 'current' : ''); $>">
+						<a href="/">File System</a>
+						<ul>
+							<$js structure(filesystem); $>
+						</ul>
+					</li>
+				</ul>
+			</nav>
+			<main>
+				<div class="row">
+					<$js files(model.children()); $>
+				</div>
+			</main>
+		</div>
+
+		<script src="/lib/jquery-1.11.2.min.js"></script>
+		<script src="/js/recoil.min.js"></script>
+		<script src="/js/directory.min.js"></script>
+	</body>
+</html>
