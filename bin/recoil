@@ -77,8 +77,8 @@ if(!config.src) {
 	console.error('No requirements source directory provided');
 	process.exit(1);
 }
-config.xml = config.xml || false;
 config.port = config.port || 8080;
+config.extname = config.extname || [];
 
 for(var option in config) {
 	if(option in options) {
@@ -100,9 +100,12 @@ if(cluster.isMaster) {
 		worker = cluster.fork();
 	});
 } else {
+	if(config.xml) {
+		config.extname.push('xml');
+	}
 	var ctx = {
 		src: config.src,
-		xml: config.xml
+		extname: config.extname
 	};
 	http.createServer(recoil(ctx)).listen(config.port);
 }
