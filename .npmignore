@@ -1,0 +1,20 @@
+# node
+.npm*
+node_modules/
+
+# git
+.git*
+
+# test
+test/
+recoil.json
+
+# mockup
+theme/img/icons/
+theme/*.html
+
+# grunt
+Gruntfile.js
+
+# assets
+app/assets/
