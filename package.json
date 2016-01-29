@@ -1,5 +1,5 @@
 {
-  "name": "recoil",
+  "name": "recoil-editor",
   "version": "0.1.0",
   "description": "Recoil is a requirements editor",
   "main": "index.js",
@@ -26,6 +26,7 @@
     "body-parser": "^1.14.2",
     "cafescript": "^0.5.0",
     "express": "^4.13.3",
+    "glob": "^6.0.4",
     "nopt": "^3.0.6",
     "xml2js": "^0.4.15"
   },

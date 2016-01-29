@@ -3,6 +3,10 @@ $(function() {
 		application: $('head meta[name="application"]').attr('content'),
 		pathname: $('head meta[name="pathname"]').attr('content')
 	};
+	$('.action-list li[data-href]').click(function() {
+		var href = $(this).attr('data-href');
+		window.location.assign(href);
+	});
 
 	var spy = $('#sidebar').scrollspy({
 		offset: 55

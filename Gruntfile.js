@@ -40,7 +40,8 @@ module.exports = function(grunt) {
 				files: {
 					'theme/js/recoil.min.js': ['app/assets/js/*.js'],
 					'theme/js/document.min.js': ['app/assets/js/document/**.js'],
-					'theme/js/directory.min.js': ['app/assets/js/directory/**.js']
+					'theme/js/directory.min.js': ['app/assets/js/directory/**.js'],
+					'theme/js/about.min.js': ['app/assets/js/about/**.js']
 				}
 			},
 			release: {
@@ -52,7 +53,8 @@ module.exports = function(grunt) {
 				files: {
 					'theme/js/recoil.min.js': ['app/assets/js/*.js'],
 					'theme/js/document.min.js': ['app/assets/js/document/**/*.js'],
-					'theme/js/directory.min.js': ['app/assets/js/directory/**/*.js']
+					'theme/js/directory.min.js': ['app/assets/js/directory/**/*.js'],
+					'theme/js/about.min.js': ['app/assets/js/about/**.js']
 				}
 			}
 		}
