@@ -15,12 +15,16 @@ jQuery.fn.textselect = function() {
 };
 
 function registerMenus(iconizer, handlers, update) {
+	var $current = $('nav .nav-tree li[data-status="current"]');
+	function resolve(text) {
+		return $current.children('ul').children('li').children('a:contains(' + text + ')');
+	}
+
 	function openIcon(e) {
 		handlers.follow.call($(this));
 	}
 
 	function openAll(e) {
-		console.log(iconizer.active());
 		iconizer.active().forEach(function(icon) {
 			handlers.open.call(icon);
 		});
@@ -37,12 +41,21 @@ function registerMenus(iconizer, handlers, update) {
 			.focus();
 
 		name.blur(function() {
-			$(icon).removeClass('icon-edit');
 			var value = name.text();
 			update('fs', 'edit', 'inode[' + original + ']', { name: value })
-				.success(function() {
-					$(icon).text(value);
+				.success(function(response) {
+					if(response.status == 'success') {
+						var $link = resolve(original);
+						var type = $link.attr('href').slice(-1);
+						var href = type == '/' ? name.text() + '/' : name.text();
+
+						$link.attr('href', href);
+						$link.text(value);
+						name.text(value);
+						$(icon).attr('data-href', href);
+					}
 				});
+			$(icon).removeClass('icon-edit');
 			name.text(original);
 			name.attr('contenteditable', false);
 			$(icon).removeClass('icon-edit');
@@ -51,10 +64,39 @@ function registerMenus(iconizer, handlers, update) {
 
 	function deleteIcon(e) {
 		var icon = this;
-		update('fs', 'remove', 'inode[' + $(icon).find('span:not(.img)').text() + ']')
-			.success(function() {
-				iconizer.remove(icon);
-				$(icon).remove();
+		var label = $(icon).find('span:not(.img)').text();
+		update('fs', 'remove', 'inode[' + label + ']')
+			.success(function(response) {
+				if(response.status == 'success') {
+					resolve(label).closest('li').remove();
+					iconizer.remove(icon);
+					$(icon).remove();
+				}
+			});
+	}
+
+	function deleteAll(e) {
+		var updates = [];
+		var active = iconizer.active();
+
+		active.forEach(function(icon) {
+			var label = $(icon).find('span:not(.img)').text();
+			updates.push({
+				type: 'fs',
+				method: 'remove',
+				reference: 'inode[' + label + ']'
+			});
+		});
+		update(updates)
+			.success(function(response) {
+				active.forEach(function(icon, index) {
+					if(response[index].status == 'success') {
+						var label = $(icon).find('span:not(.img)').text();
+						resolve(label).closest('li').remove();
+						iconizer.remove(icon);
+						$(icon).remove();
+					}
+				});
 			});
 	}
 
@@ -73,11 +115,25 @@ function registerMenus(iconizer, handlers, update) {
 
 		$name.blur(function() {
 			update('fs', 'add', 'directory[]', { name: $name.text() })
-				.success(function() {
-					$icon.removeClass('icon-edit');
-					$name.attr('contenteditable', false);
-					inodes.append($icon);
+				.success(function(response) {
+					if(response.status == 'success') {
+						var $link;
+						$current.children('ul').append(
+							$('<li class="parent">').append(
+								$link = $('<a href="' + $name.text() + '/">' + $name.text() + '</a>'),
+								$('<ul>')
+							)
+						);
+						$link.click(handlers.expand);
+						$link.dblclick(handlers.goto);
+						inodes.append($icon);
+						iconizer.add($icon);
+						$icon.attr('data-href', $name.text() + '/');
+						$icon.on('follow', handlers.follow);
+					}
 				});
+			$icon.removeClass('icon-edit');
+			$name.attr('contenteditable', false);
 			$icon.detach();
 		});
 	}
@@ -97,11 +153,24 @@ function registerMenus(iconizer, handlers, update) {
 
 		$name.blur(function() {
 			update('fs', 'add', 'document[]', { name: $name.text() })
-				.success(function() {
-					$icon.removeClass('icon-edit');
-					$name.attr('contenteditable', false);
-					inodes.append($icon);
+				.success(function(response) {
+					if(response.status == 'success') {
+						var $link;
+						$current.children('ul').append(
+							$('<li>').append(
+								$link = $('<a href="' + $name.text() + '">' + $name.text() + '</a>'),
+								$('<ul>')
+							)
+						);
+						$link.click(handlers.goto);
+						inodes.append($icon);
+						iconizer.add($icon);
+						$icon.attr('data-href', $name.text());
+						$icon.on('follow', handlers.follow);
+					}
 				});
+			$icon.removeClass('icon-edit');
+			$name.attr('contenteditable', false);
 			$icon.detach();
 		});
 	}
@@ -129,6 +198,9 @@ function registerMenus(iconizer, handlers, update) {
 			}, {
 				html: '<li>Delete</li>',
 				handler: deleteIcon.bind(contains)
+			}, {
+				html: '<li>Delete ' + iconizer.active().length + ' Objects</li>',
+				handler: deleteAll.bind(contains)
 			}];
 		} else {
 			return [{

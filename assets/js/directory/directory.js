@@ -24,14 +24,27 @@ $(function() {
 		$(this).closest('.settings-btn').find('.settings-menu').toggle();
 	});
 
+	function goto(e) {
+		var node = $(this).closest('li');
+		var ref = '';
+		while(!node.hasClass('heading')) {
+			ref = node.children('a').attr('href') + ref;
+			node = node.parent().closest('li');
+		}
+		ref = '/' + ref;
+		window.location.assign(ref);
+		e.preventDefault();
+	}
+	function expand(e) {
+		$(this).parent('li').toggleClass('selected');
+		e.preventDefault();
+	}
 	function follow() {
 		var ref = $(this).attr('data-href');
-		window.location.assign(ref);
+		window.location.assign('/' + meta.pathname + ref);
 	}
-
 	function open(array) {
 		var ref = $(this).attr('data-href');
-		console.log(window.location);
 		window.open(window.location.origin + '/' + ref, ref);
 	}
 
@@ -46,6 +59,10 @@ $(function() {
 		}
 	}
 
+	$('.nav-tree li.parent > a').click(expand);
+	$('.nav-tree li.parent > a').dblclick(goto);
+	$('.nav-tree li:not(.parent) > a').click(goto);
+
 	$('main')
 		.on('click', filter)
 		.on('contextmenu', filter);
@@ -53,14 +70,20 @@ $(function() {
 	icons.on('follow', follow);
 
 	function update(type, method, reference, params) {
-		return $.ajax({
-			method: 'POST',
-			data: JSON.stringify({
+		var data;
+		if(Array.isArray(type)) {
+			data = type;
+		} else {
+			data = {
 				type: type,
 				method: method,
 				reference: reference,
 				params: params
-			}),
+			};
+		}
+		return $.ajax({
+			method: 'POST',
+			data: JSON.stringify(data),
 			contentType: 'application/json',
 			url: '/api/commit/' + meta.pathname
 		}).error(function(xhr, type, error) {
@@ -69,6 +92,8 @@ $(function() {
 	}
 
 	var handlers = {
+		goto: goto,
+		expand: expand,
 		follow: follow,
 		open: open
 	};

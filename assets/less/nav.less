@@ -28,6 +28,7 @@ nav {
 			display: none;
 			flex-direction: column;
 			padding-left: 10px;
+			margin: 0;
 		}
 		li {
 			&.active, &.selected {
@@ -37,8 +38,16 @@ nav {
 				&.parent:before {
 					transform: rotate(90deg);
 				}
-				&:not(.parent):before {
+				&:not(.parent):not(.heading):before {
 					transform: rotate(45deg);
+				}
+			}
+			&.heading {
+				& > ul {
+					display: flex;
+				}
+				&:before {
+					content: '#';
 				}
 			}
 			&.selected {
@@ -55,7 +64,7 @@ nav {
 			&.parent:before {
 				content: '>';
 			}
-			&:not(.parent):before {
+			&:not(.parent):not(.heading):before {
 				content: '\22c4';
 			}
 			a {
